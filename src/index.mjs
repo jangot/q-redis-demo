@@ -1,5 +1,6 @@
 import { createClient } from 'redis';
 import { EVENT, Listener } from './Listener.mjs';
+import {Report} from "./Report.mjs";
 
 const [
     node,
@@ -28,19 +29,9 @@ listener.emitter.on(EVENT.ADD, async (data) => {
 });
 
 listener.emitter.on(EVENT.DONE, async ({ list }) => {
-    let first = new Date().getTime();
-    let last = 0;
+    const report = new Report(list);
 
-    const numbersGenerated = list.map(it => {
-        if (first > it.time) first = it.time;
-        if (last < it.time) last = it.time;
-
-        return it.value;
-    });
-    console.log('DONE', {
-        timeSpent: last - first,
-        numbersGenerated
-    });
+    await report.writeToDisk('random-report');
     await client.disconnect();
 });
 

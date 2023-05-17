@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.mjs 2 4",
+    "start": "node ./src/index.mjs 2 2",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-redis": "docker run -d --name redis-server -p 6379:6379 redis/redis-stack-server:latest"
   },
