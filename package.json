@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.mjs 2 2",
+    "start": "node ./src/index.mjs 12 100",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-redis": "docker run -d --name redis-server -p 6379:6379 redis/redis-stack-server:latest"
+    "start-redis": "docker run -d --name demo-redis-server -p 6379:6379 redis/redis-stack-server:latest"
   },
   "engines": {
     "node": ">16"

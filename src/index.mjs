@@ -1,6 +1,8 @@
 import { createClient } from 'redis';
 import { EVENT, Listener } from './Listener.mjs';
 import {Report} from "./Report.mjs";
+import { Producer } from './Producer.mjs';
+import { Broker } from './Broker.mjs';
 
 const [
     node,
@@ -22,16 +24,24 @@ await client.connect();
 console.log('Connected')
 
 const QUEUE_NAME = 'my:event';
+
 const listener = new Listener(client, QUEUE_NAME, range);
+const broker = new Broker(client, QUEUE_NAME);
+broker.initProducers(producersCount, range);
 
 listener.emitter.on(EVENT.ADD, async (data) => {
     console.log(data);
 });
 
 listener.emitter.on(EVENT.DONE, async ({ list }) => {
+    broker.stop();
+    await broker.lastOperation;
     await client.disconnect();
     const report = new Report(list);
     await report.writeToDisk('random-report');
 });
 
 listener.listen();
+console.log('listen');
+broker.run();
+console.log('run');

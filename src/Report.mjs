@@ -31,6 +31,6 @@ export class Report {
         await writeFile(filePath, JSON.stringify({
             timeSpent: last - first,
             numbersGenerated
-        }));
+        }, null, 4));
     }
 }
