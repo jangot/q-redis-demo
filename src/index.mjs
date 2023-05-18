@@ -29,10 +29,9 @@ listener.emitter.on(EVENT.ADD, async (data) => {
 });
 
 listener.emitter.on(EVENT.DONE, async ({ list }) => {
-    const report = new Report(list);
-
-    await report.writeToDisk('random-report');
     await client.disconnect();
+    const report = new Report(list);
+    await report.writeToDisk('random-report');
 });
 
 listener.listen();
